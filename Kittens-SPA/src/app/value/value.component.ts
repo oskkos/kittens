@@ -8,15 +8,15 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ValueComponent implements OnInit {
 
-  private values: IValue[];
+  protected values: IValue[];
 
   constructor(private readonly http: HttpClient) { }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.getValues();
   }
 
-  getValues() {
+  private getValues() {
     this.http.get('http://localhost:5000/api/values').subscribe(
       (response: IValue[]) => { this.values = response; },
       (error) => { console.log(error); }
