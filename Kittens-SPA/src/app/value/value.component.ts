@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ValueComponent implements OnInit {
 
-  private values: unknown;
+  private values: IValue[];
 
   constructor(private readonly http: HttpClient) { }
 
@@ -18,8 +18,13 @@ export class ValueComponent implements OnInit {
 
   getValues() {
     this.http.get('http://localhost:5000/api/values').subscribe(
-      (response) => { this.values = response; },
+      (response: IValue[]) => { this.values = response; },
       (error) => { console.log(error); }
     );
   }
+}
+
+interface IValue {
+  id: number;
+  name: string;
 }
