@@ -19,8 +19,6 @@ namespace Kittens.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
         {
-            // TOOD: validate
-
             var username = userForRegisterDto.Username.ToLower();
             if (await _repo.UserExists(username)) {
                 return BadRequest("Username already exists");
