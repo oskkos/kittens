@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Kittens.API.DTOs
+namespace Kittens.API.Dtos
 {
     public class UserForRegisterDto
     {
