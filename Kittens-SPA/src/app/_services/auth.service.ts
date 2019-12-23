@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ILogin, ILoginResponse } from '../interfaces';
+import { ILogin, ILoginResponse } from '../api-interfaces';
 import { map } from 'rxjs/operators';
 
 @Injectable({
