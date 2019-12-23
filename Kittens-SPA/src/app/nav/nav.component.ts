@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ILogin } from '../interfaces';
 
 @Component({
   selector: 'app-nav',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavComponent implements OnInit {
 
-  protected model: IModel = {username: '', password: ''};
+  protected model: ILogin = {};
 
   constructor() { }
 
@@ -17,9 +18,4 @@ export class NavComponent implements OnInit {
   protected login() {
     console.log(this.model);
   }
-}
-
-interface IModel {
-  username: string;
-  password: string;
 }
