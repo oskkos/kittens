@@ -8,8 +8,6 @@ import { AuthService } from '../_services/auth.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  @Input() valuesFromHome: {id: number, name: string};
-
   @Output() cancelRegister = new EventEmitter();
 
   protected model: IRegister = {};
@@ -21,9 +19,9 @@ export class RegisterComponent implements OnInit {
 
   protected register() {
     this.authService.register(this.model).subscribe(
-      () => { console.log('success')},
-      (error) => { console.log(error)}
-    )
+      () => { console.log('success'); },
+      (error) => { console.log(error); }
+    );
   }
   protected cancel() {
     this.cancelRegister.emit({cancelled: true});
