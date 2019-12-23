@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ILogin, ILoginResponse } from '../api-interfaces';
+import { ILogin, ILoginResponse, IRegister } from '../api-interfaces';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -21,5 +21,8 @@ public login(model: ILogin) {
       }
       )
     );
+}
+public register(model: IRegister) {
+  return this.http.post(`${this.baseUrl}register`, model);
 }
 }
