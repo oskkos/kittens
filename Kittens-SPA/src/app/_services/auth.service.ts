@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = 'http://localhost:5000/api/auth';
+  private baseUrl = 'http://localhost:5000/api/auth/';
 
 constructor(private http: HttpClient) { }
 
@@ -15,7 +15,7 @@ public login(model: ILogin) {
   return this.http.post(`${this.baseUrl}login`, model)
     .pipe(
       map((response: ILoginResponse) => {
-        if (response?.token) {
+        if (response && response.token) {
           localStorage.setItem('token', response.token);
         }
       }

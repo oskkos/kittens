@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ILogin } from '../interfaces';
+import { AuthService } from '../_services/auth.service';
 
 @Component({
   selector: 'app-nav',
@@ -10,12 +11,14 @@ export class NavComponent implements OnInit {
 
   protected model: ILogin = {};
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   public ngOnInit() {
   }
 
   protected login() {
-    console.log(this.model);
+    this.authService.login(this.model).subscribe(
+      next => { console.log('logged in'); },
+      error => { console.log('Login failed'); });
   }
 }
