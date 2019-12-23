@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { IRegister } from '../api-interfaces';
 
 @Component({
@@ -8,6 +8,8 @@ import { IRegister } from '../api-interfaces';
 })
 export class RegisterComponent implements OnInit {
   @Input() valuesFromHome: {id: number, name: string};
+
+  @Output() cancelRegister = new EventEmitter();
 
   protected model: IRegister = {};
 
@@ -20,6 +22,6 @@ export class RegisterComponent implements OnInit {
     console.log(this.model);
   }
   protected cancel() {
-    console.log('cancel');
+    this.cancelRegister.emit({cancelled: true});
   }
 }
