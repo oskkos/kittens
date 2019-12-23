@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class HomeComponent implements OnInit {
   protected registerMode = false;
-  private values: any[];
+  protected values: any[];
 
   constructor(private http: HttpClient) { }
 
