@@ -7,9 +7,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavComponent implements OnInit {
 
+  protected model: IModel = {username: '', password: ''};
+
   constructor() { }
 
-  ngOnInit() {
+  public ngOnInit() {
   }
 
+  protected login() {
+    console.log(this.model);
+  }
+}
+
+interface IModel {
+  username: string;
+  password: string;
 }
