@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { IRegister } from '../api-interfaces';
 
 @Component({
@@ -7,6 +7,7 @@ import { IRegister } from '../api-interfaces';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
+  @Input() valuesFromHome: {id: number, name: string};
 
   protected model: IRegister = {};
 
