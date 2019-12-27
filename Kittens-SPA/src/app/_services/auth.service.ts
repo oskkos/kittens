@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ILogin, ILoginResponse, IRegister } from '../api-interfaces';
 import { map } from 'rxjs/operators';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private baseUrl = 'http://localhost:5000/api/auth/';
+  private jwtHelper = new JwtHelperService();
 
 constructor(private http: HttpClient) { }
 
@@ -24,5 +26,19 @@ public login(model: ILogin) {
 }
 public register(model: IRegister) {
   return this.http.post(`${this.baseUrl}register`, model);
+}
+
+public loggedIn() {
+  const token = localStorage.getItem('token');
+  return !this.jwtHelper.isTokenExpired(token);
+}
+
+public getUserName() {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    return 'UnknownUser';
+  }
+  const decodedToken = this.jwtHelper.decodeToken(token);
+  return decodedToken ? decodedToken.unique_name : 'UnknownUser';
 }
 }
