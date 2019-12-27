@@ -11,6 +11,7 @@ import { AlertifyService } from '../_services/alertify.service';
 export class NavComponent implements OnInit {
 
   protected model: ILogin = {};
+  protected isCollapsed = true;
 
   constructor(private authService: AuthService, private alertify: AlertifyService) { }
 
