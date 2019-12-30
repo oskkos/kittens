@@ -21,6 +21,8 @@ import { MemberCardComponent } from './members/member-card/member-card.component
 import { AuthService } from './_services/auth.service';
 import { environment } from 'src/environments/environment';
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
+import { MemberDetailResolver } from './_resolvers/member-detail.resolver';
+import { MemberListResolver } from './_resolvers/member-list.resolver';
 
 @NgModule({
    declarations: [
@@ -52,7 +54,9 @@ import { MemberDetailComponent } from './members/member-detail/member-detail.com
       })
    ],
    providers: [
-      ErrorInterceptorProvider
+      ErrorInterceptorProvider,
+      MemberDetailResolver,
+      MemberListResolver
    ],
    bootstrap: [
       AppComponent
