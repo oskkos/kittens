@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { IUserDetailed } from 'src/app/api-interfaces';
 import { ActivatedRoute } from '@angular/router';
 import { AlertifyService } from 'src/app/_services/alertify.service';
@@ -10,9 +10,17 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./member-edit.component.css']
 })
 export class MemberEditComponent implements OnInit {
-  @ViewChild('editForm', {static: true}) editForm: NgForm;
+  @ViewChild('editForm', {static: true})
+  public editForm: NgForm;
+
   protected user: IUserDetailed;
 
+  @HostListener('window:beforeunload', ['$event'])
+  protected unloadNotification($event: any) {
+    if (this.editForm.dirty) {
+      $event.returnValue = true;
+    }
+  }
   constructor(private route: ActivatedRoute, private alertify: AlertifyService) { }
 
   ngOnInit() {
@@ -23,7 +31,7 @@ export class MemberEditComponent implements OnInit {
 
  protected updateUser() {
    console.log(this.user);
-   this.alertify.success("Profile updated succesfully!");
+   this.alertify.success('Profile updated succesfully!');
    this.editForm.reset(this.user);
  }
 }
