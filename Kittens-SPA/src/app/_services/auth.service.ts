@@ -38,12 +38,20 @@ public loggedIn() {
   return !this.jwtHelper.isTokenExpired(token);
 }
 
-public getUserName() {
+public getUserName(): string {
   const token = localStorage.getItem('token');
   if (!token) {
     return 'UnknownUser';
   }
   const decodedToken = this.jwtHelper.decodeToken(token);
-  return decodedToken ? decodedToken.unique_name : 'UnknownUser';
+  return decodedToken ? decodedToken.unique_name as string : 'UnknownUser';
+}
+public getUserId(): number | null {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    return null;
+  }
+  const decodedToken = this.jwtHelper.decodeToken(token);
+  return decodedToken ? parseInt(decodedToken.nameid, 10) : null;
 }
 }
