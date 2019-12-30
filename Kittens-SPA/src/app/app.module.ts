@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { BsDropdownModule } from 'ngx-bootstrap';
+import { BsDropdownModule, TabsModule } from 'ngx-bootstrap';
 import { CollapseModule } from 'ngx-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -40,6 +40,7 @@ import { MemberDetailComponent } from './members/member-detail/member-detail.com
       FormsModule,
       BrowserAnimationsModule,
       BsDropdownModule.forRoot(),
+      TabsModule.forRoot(),
       CollapseModule.forRoot(),
       RouterModule.forRoot(appRoutes),
       JwtModule.forRoot({

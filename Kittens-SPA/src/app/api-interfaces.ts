@@ -24,6 +24,7 @@ export interface IUser {
   country: string;
 }
 export interface IUserDetailed extends IUser {
+  introduction: string;
   interests: string;
   lookingFor: string;
   photos: IPhoto[];
