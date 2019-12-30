@@ -20,6 +20,7 @@ import { appRoutes } from './routes';
 import { MemberCardComponent } from './members/member-card/member-card.component';
 import { AuthService } from './_services/auth.service';
 import { environment } from 'src/environments/environment';
+import { MemberDetailComponent } from './members/member-detail/member-detail.component';
 
 @NgModule({
    declarations: [
@@ -30,7 +31,8 @@ import { environment } from 'src/environments/environment';
       MemberListComponent,
       ListsComponent,
       MessagesComponent,
-      MemberCardComponent
+      MemberCardComponent,
+      MemberDetailComponent
    ],
    imports: [
       BrowserModule,
