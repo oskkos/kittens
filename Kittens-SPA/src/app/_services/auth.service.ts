@@ -12,6 +12,10 @@ export class AuthService {
   private baseUrl = environment.apiUrl + 'auth/';
   private jwtHelper = new JwtHelperService();
 
+public static getToken() {
+  return localStorage.getItem('token');
+}
+
 constructor(private http: HttpClient) { }
 
 public login(model: ILogin) {

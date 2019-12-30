@@ -6,6 +6,7 @@ import { BsDropdownModule } from 'ngx-bootstrap';
 import { CollapseModule } from 'ngx-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
+import { JwtModule } from '@auth0/angular-jwt';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -17,6 +18,8 @@ import { ListsComponent } from './lists/lists.component';
 import { MessagesComponent } from './messages/messages.component';
 import { appRoutes } from './routes';
 import { MemberCardComponent } from './members/member-card/member-card.component';
+import { AuthService } from './_services/auth.service';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
    declarations: [
@@ -36,7 +39,14 @@ import { MemberCardComponent } from './members/member-card/member-card.component
       BrowserAnimationsModule,
       BsDropdownModule.forRoot(),
       CollapseModule.forRoot(),
-      RouterModule.forRoot(appRoutes)
+      RouterModule.forRoot(appRoutes),
+      JwtModule.forRoot({
+         config: {
+            tokenGetter: AuthService.getToken,
+            whitelistedDomains: [environment.domain],
+            blacklistedRoutes: [environment.domain + '/api/auth']
+         }
+      })
    ],
    providers: [
       ErrorInterceptorProvider
