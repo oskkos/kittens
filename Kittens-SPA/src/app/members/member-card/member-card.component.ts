@@ -7,11 +7,11 @@ import { IUser } from 'src/app/api-interfaces';
   styleUrls: ['./member-card.component.css']
 })
 export class MemberCardComponent implements OnInit {
-  @Input() protected user: IUser;
+  @Input() public user: IUser;
 
   constructor() { }
 
-  ngOnInit() {
+  public ngOnInit() {
   }
 
 }

@@ -11,9 +11,9 @@ import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gal
   styleUrls: ['./member-detail.component.css']
 })
 export class MemberDetailComponent implements OnInit {
-  protected user: IUserDetailed;
-  protected galleryOptions: NgxGalleryOptions[];
-  protected galleryImages: NgxGalleryImage[];
+  public user: IUserDetailed;
+  public galleryOptions: NgxGalleryOptions[];
+  public galleryImages: NgxGalleryImage[];
 
 
   constructor(private userService: UserService, private alertify: AlertifyService, private route: ActivatedRoute) { }

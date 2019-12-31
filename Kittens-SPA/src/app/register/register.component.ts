@@ -11,20 +11,20 @@ import { AlertifyService } from '../_services/alertify.service';
 export class RegisterComponent implements OnInit {
   @Output() cancelRegister = new EventEmitter();
 
-  protected model: IRegister = {};
+  public model: IRegister = {};
 
   constructor(private authService: AuthService, private alertify: AlertifyService) { }
 
   public ngOnInit() {
   }
 
-  protected register() {
+  public register() {
     this.authService.register(this.model).subscribe(
       () => { this.alertify.success('success'); },
       (error) => { this.alertify.error(error); }
     );
   }
-  protected cancel() {
+  public cancel() {
     this.cancelRegister.emit({cancelled: true});
   }
 }

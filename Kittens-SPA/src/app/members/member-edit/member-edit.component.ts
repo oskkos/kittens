@@ -13,23 +13,23 @@ export class MemberEditComponent implements OnInit {
   @ViewChild('editForm', {static: true})
   public editForm: NgForm;
 
-  protected user: IUserDetailed;
+  public user: IUserDetailed;
 
   @HostListener('window:beforeunload', ['$event'])
-  protected unloadNotification($event: any) {
+  public unloadNotification($event: any) {
     if (this.editForm.dirty) {
       $event.returnValue = true;
     }
   }
   constructor(private route: ActivatedRoute, private alertify: AlertifyService) { }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.route.data.subscribe(
       (data) => { this.user = data.user; }
     );
  }
 
- protected updateUser() {
+ public updateUser() {
    console.log(this.user);
    this.alertify.success('Profile updated succesfully!');
    this.editForm.reset(this.user);

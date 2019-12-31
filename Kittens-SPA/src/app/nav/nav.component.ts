@@ -11,15 +11,15 @@ import { Router } from '@angular/router';
 })
 export class NavComponent implements OnInit {
 
-  protected model: ILogin = {};
-  protected isCollapsed = true;
+  public model: ILogin = {};
+  public isCollapsed = true;
 
   constructor(private authService: AuthService, private alertify: AlertifyService, private router: Router) { }
 
   public ngOnInit() {
   }
 
-  protected login() {
+  public login() {
     this.authService.login(this.model).subscribe(
       next => { this.alertify.success('logged in'); },
       error => { this.alertify.error(error); },
@@ -27,14 +27,14 @@ export class NavComponent implements OnInit {
     );
   }
 
-  protected loggedIn() {
+  public loggedIn() {
     return this.authService.loggedIn();
   }
 
-  protected getUserName() {
+  public getUserName() {
     return this.authService.getUserName();
   }
-  protected logout() {
+  public logout() {
     localStorage.removeItem('token');
     this.alertify.message('logged out');
     this.router.navigate(['/home']);
