@@ -75,7 +75,7 @@ namespace Kittens.API.Controllers
             userFromRepo.Photos.Add(photo);
             if (await _repository.SaveAll())
             {
-                return CreatedAtRoute("GetPhoto", new { id = photo.Id}, _mapper.Map<PhotoForReturnDto>(photo));
+                return CreatedAtRoute("GetPhoto", new { id = photo.Id, userId = userId}, _mapper.Map<PhotoForReturnDto>(photo));
             }
             return BadRequest("Could not add the photo");
         }
