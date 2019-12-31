@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IUser, IUserDetailed } from '../api-interfaces';
+import { IUser, IUserDetailed, IUserUpdate } from '../api-interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -17,5 +17,8 @@ public getUsers(): Observable<IUser[]> {
 }
 public getUser(id: number): Observable<IUserDetailed> {
   return this.http.get<IUserDetailed>(this.baseUrl + 'users/' + id);
+}
+public updateUser(id: number, user: IUserUpdate) {
+  return this.http.put<void>(this.baseUrl + 'users/' + id, user);
 }
 }

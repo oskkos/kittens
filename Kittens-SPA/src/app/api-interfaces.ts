@@ -29,6 +29,13 @@ export interface IUserDetailed extends IUser {
   lookingFor: string;
   photos: IPhoto[];
 }
+export interface IUserUpdate {
+  introduction: string;
+  interests: string;
+  lookingFor: string;
+  city: string;
+  country: string;
+}
 export interface IPhoto {
   id: number;
   url: string;
