@@ -3,6 +3,8 @@ import { FileUploader } from 'ng2-file-upload';
 import { IPhoto } from '../../api-interfaces';
 import { environment } from 'src/environments/environment';
 import { AuthService } from 'src/app/_services/auth.service';
+import { UserService } from 'src/app/_services/user.service';
+import { AlertifyService } from 'src/app/_services/alertify.service';
 
 @Component({
   selector: 'app-photo-editor',
@@ -15,7 +17,7 @@ export class PhotoEditorComponent implements OnInit {
   public uploader: FileUploader;
   public hasBaseDropZoneOver = false;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private userService: UserService, private alertify: AlertifyService) { }
 
   public ngOnInit() {
     this.initializeUploader();
@@ -50,5 +52,11 @@ export class PhotoEditorComponent implements OnInit {
       };
       this.photos.push(photo);
     };
+  }
+  public setMainPhoto(photo: IPhoto) {
+    this.userService.setMainPhoto(this.authService.getUserId(), photo.id).subscribe(
+      () => { console.log('boom its done'); },
+      (error) => { this.alertify.error(error); }
+    );
   }
 }

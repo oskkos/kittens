@@ -21,4 +21,7 @@ public getUser(id: number): Observable<IUserDetailed> {
 public updateUser(id: number, user: IUserUpdate) {
   return this.http.put<void>(this.baseUrl + 'users/' + id, user);
 }
+public setMainPhoto(userId: number, id: number) {
+  return this.http.post<void>(this.baseUrl + 'users/' + userId + '/photos/' + id + '/setMain', {});
+}
 }
