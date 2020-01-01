@@ -34,8 +34,11 @@ export class NavComponent implements OnInit {
   public getUserName() {
     return this.authService.getUserName();
   }
+  public getPhotoUrl() {
+    return AuthService.getUser().photoUrl;
+  }
   public logout() {
-    localStorage.removeItem('token');
+    this.authService.logout();
     this.alertify.message('logged out');
     this.router.navigate(['/home']);
   }

@@ -6,6 +6,7 @@ export interface ILogin {
 }
 export interface ILoginResponse {
   token?: string;
+  user?: IUser;
 }
 export interface IRegister {
   username?: string;
