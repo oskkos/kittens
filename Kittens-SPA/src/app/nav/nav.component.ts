@@ -13,10 +13,14 @@ export class NavComponent implements OnInit {
 
   public model: ILogin = {};
   public isCollapsed = true;
+  public photoUrl: string;
 
   constructor(private authService: AuthService, private alertify: AlertifyService, private router: Router) { }
 
   public ngOnInit() {
+    this.authService.currentPhotoUrl.subscribe(
+      (url) => { this.photoUrl = url; }
+    );
   }
 
   public login() {
@@ -33,9 +37,6 @@ export class NavComponent implements OnInit {
 
   public getUserName() {
     return this.authService.getUserName();
-  }
-  public getPhotoUrl() {
-    return AuthService.getUser().photoUrl;
   }
   public logout() {
     this.authService.logout();
