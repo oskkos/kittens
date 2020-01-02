@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ILogin, ILoginResponse, IRegister, IUser } from '../api-interfaces';
+import { ILogin, ILoginResponse, IUser } from '../api-interfaces';
 import { BehaviorSubject, Observable} from 'rxjs';
 import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -46,8 +46,8 @@ public logout() {
   localStorage.removeItem('token');
   localStorage.removeItem('user');
 }
-public register(model: IRegister) {
-  return this.http.post(`${this.baseUrl}register`, model);
+public register(user: IUser) {
+  return this.http.post<IUser>(`${this.baseUrl}register`, user);
 }
 
 public loggedIn() {
