@@ -37,14 +37,11 @@ namespace Kittens.API.Controllers
 				return BadRequest("Username already exists");
 			}
 
-			var userToCreate = new User
-			{
-				Username = username
-			};
+			var userToCreate = _mapper.Map<User>(userForRegisterDto);
+
 			var createdUser = await _repo.Register(userToCreate, userForRegisterDto.Password);
 
-			// TODO: Return user
-			return StatusCode(201);
+			return CreatedAtRoute("GetUser", new {controller = "users", id = createdUser.Id}, _mapper.Map<UserForDetailedDto>(createdUser));
 		}
 
 		[HttpPost("login")]
