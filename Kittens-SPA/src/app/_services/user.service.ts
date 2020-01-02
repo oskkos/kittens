@@ -24,4 +24,7 @@ public updateUser(id: number, user: IUserUpdate) {
 public setMainPhoto(userId: number, id: number) {
   return this.http.post<void>(this.baseUrl + 'users/' + userId + '/photos/' + id + '/setMain', {});
 }
+public deletePhoto(userId: number, id: number) {
+  return this.http.delete(this.baseUrl + 'users/' + userId + '/photos/' + id);
+}
 }
