@@ -6,6 +6,8 @@ import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from '../../environments/environment';
 
+const PLACHOLDER_IMG = '../../assets/user.png';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -13,7 +15,7 @@ export class AuthService {
 public currentPhotoUrl: Observable<string>;
 private baseUrl = environment.apiUrl + 'auth/';
 private jwtHelper = new JwtHelperService();
-private photoUrl = new BehaviorSubject<string>('../../assets/user.png');
+private photoUrl = new BehaviorSubject<string>(PLACHOLDER_IMG);
 
 public static getToken(): string {
   return localStorage.getItem('token');
@@ -53,9 +55,11 @@ public loggedIn() {
   return !this.jwtHelper.isTokenExpired(token);
 }
 public changeMemberPhoto(url: string) {
-  this.photoUrl.next(url);
+  const newUrl = url || PLACHOLDER_IMG;
+
+  this.photoUrl.next(newUrl);
   const user = AuthService.getUser();
-  user.photoUrl = url;
+  user.photoUrl = newUrl;
   localStorage.setItem('user', JSON.stringify(user));
 }
 public getUserName(): string {
