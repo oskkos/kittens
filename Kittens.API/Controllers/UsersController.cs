@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Kittens.API.Data;
 using Kittens.API.Dtos;
+using Kittens.API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kittens.API.Controllers
 {
+	[ServiceFilter(typeof(LogUserActivity))]
 	[Authorize]
 	[Route("api/[controller]")]
 	[ApiController]
