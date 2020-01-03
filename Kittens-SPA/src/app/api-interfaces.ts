@@ -15,7 +15,7 @@ export interface IUser {
   age: number;
   gender: string;
   created: Date;
-  lastActive: Date;
+  lastActive: number;
   photoUrl: string;
   city: string;
   country: string;
