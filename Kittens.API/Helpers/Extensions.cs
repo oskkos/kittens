@@ -29,5 +29,5 @@ namespace Kittens.API.Helpers
             }
             return age;
         }
-    }g
+    }
 }
