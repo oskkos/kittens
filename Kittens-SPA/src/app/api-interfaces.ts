@@ -40,3 +40,15 @@ export interface IPhoto {
   dateAdded: Date;
   isMain: boolean;
 }
+export interface IPagination {
+  currentPage: number;
+  itemsPerPage: number;
+  totalItems: number;
+  totalPages: number;
+}
+
+// TODO: Move
+export class PaginatedResult<T> {
+  public result: T;
+  public pagination: IPagination;
+}
