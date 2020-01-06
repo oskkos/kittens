@@ -20,7 +20,8 @@ public getUsers(page: number = 1, itemsPerPage: number = 10, userParams: IUserPa
     .append('pageSize', String(itemsPerPage))
     .append('minAge', String(typeof userParams.minAge !== 'undefined' ? userParams.minAge : 0))
     .append('maxAge', String(typeof userParams.maxAge !== 'undefined' ? userParams.maxAge : 99))
-    .append('gender', userParams.gender || '');
+    .append('gender', userParams.gender || '')
+    .append('orderBy', userParams.orderBy || 'lastActive');
 
   return this.http.get<IUser[]>(this.baseUrl + 'users', { observe: 'response', params})
   .pipe(

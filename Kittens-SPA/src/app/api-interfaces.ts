@@ -50,6 +50,7 @@ export class IUserParams {
   gender?: 'male'|'female';
   minAge?: number;
   maxAge?: number;
+  orderBy?: string;
 }
 
 // TODO: Move
