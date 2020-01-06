@@ -42,7 +42,7 @@ namespace Kittens.API.Data
 
 		public async Task<PagedList<User>> GetUsers(UserParams userParams)
 		{
-			var users = _context.Users.Include(p => p.Photos).AsQueryable();
+			var users = _context.Users.Include(p => p.Photos).OrderByDescending(u => u.LastActive).AsQueryable();
 			users = users.Where(u => u.Id != userParams.UserId);
 			users = users.Where(u => u.Gender == userParams.Gender);
 			if (userParams.MinAge != 0 || userParams.MaxAge != 99) {
@@ -50,7 +50,20 @@ namespace Kittens.API.Data
 				var maxDob = DateTime.Today.AddYears(-userParams.MinAge);
 				users = users.Where(u => u.DateOfBirth >= minDob && u.DateOfBirth <= maxDob);
 			}
-
+			if (!string.IsNullOrEmpty(userParams.OrderBy))
+			{
+				switch (userParams.OrderBy)
+				{
+					case "created":
+						users = users.OrderByDescending(u => u.Created);
+						break;
+					case "lastActive":
+						users = users.OrderByDescending(u => u.LastActive);
+						break;
+					default:
+						throw new Exception($"Unexpected order by column: {userParams.OrderBy}");
+				}
+			}
 			return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);
 		}
 
