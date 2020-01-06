@@ -46,6 +46,11 @@ export interface IPagination {
   totalItems: number;
   totalPages: number;
 }
+export class IUserParams {
+  gender?: 'male'|'female';
+  minAge?: number;
+  maxAge?: number;
+}
 
 // TODO: Move
 export class PaginatedResult<T> {
