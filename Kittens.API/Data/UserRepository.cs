@@ -25,6 +25,11 @@ namespace Kittens.API.Data
 			_context.Remove(entity);
 		}
 
+		public async Task<Like> GetLike(int userId, int recipientId)
+		{
+			return await _context.Likes.FirstOrDefaultAsync(l => l.LikerId == userId && l.LikeeId == recipientId);
+		}
+
 		public async Task<Photo> GetMainPhotoForUser(int userId)
 		{
 			return await _context.Photos.Where(u => u.UserId == userId).FirstOrDefaultAsync(p => p.IsMain);

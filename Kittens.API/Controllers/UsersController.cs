@@ -6,6 +6,7 @@ using AutoMapper;
 using Kittens.API.Data;
 using Kittens.API.Dtos;
 using Kittens.API.Helpers;
+using Kittens.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -63,6 +64,30 @@ namespace Kittens.API.Controllers
 				return NoContent();
 			}
 			throw new Exception($"Updating user {id} failed on save");
+		}
+
+		[HttpPost("{id}/like/{recipientId}")]
+		public async Task<IActionResult> LikeUser(int id, int recipientId)
+		{
+			if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) {
+				return Unauthorized();
+			}
+			if (await _repository.GetLike(id, recipientId) != null) {
+				return BadRequest("Already liked");
+			}
+			if (await _repository.GetUser(recipientId) == null) {
+				return NotFound();
+			}
+			var like = new Like
+			{
+				LikerId = id,
+				LikeeId = recipientId
+			};
+			_repository.Add<Like>(like);
+			if (await _repository.SaveAll()) {
+				return Ok();
+			}
+			return BadRequest("Failed to like user");
 		}
 	}
 }
