@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IUser, IUserDetailed, IUserUpdate, PaginatedResult, IUserParams } from '../api-interfaces';
 import { map } from 'rxjs/operators';
@@ -45,5 +45,8 @@ public setMainPhoto(userId: number, id: number) {
 }
 public deletePhoto(userId: number, id: number) {
   return this.http.delete(this.baseUrl + 'users/' + userId + '/photos/' + id);
+}
+public sendLike(id: number, recipientId: number) {
+  return this.http.post(this.baseUrl + 'users/' + id + '/like/' + recipientId, {});
 }
 }
