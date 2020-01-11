@@ -1,8 +1,8 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { IUser } from '../api-interfaces';
 import { AuthService } from '../_services/auth.service';
 import { AlertifyService } from '../_services/alertify.service';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import {FormGroup, Validators, FormBuilder, AbstractControl} from '@angular/forms';
 import { BsDatepickerConfig } from 'ngx-bootstrap';
 import { Router } from '@angular/router';
 
@@ -29,7 +29,9 @@ export class RegisterComponent implements OnInit {
     };
     this.createRegisterForm();
   }
-
+  public getComponent(key: 'username'|'knownAs'|'dateOfBirth'|'city'|'country'|'password'|'confirmPassword') {
+    return this.registerForm.get(key) as AbstractControl;
+  }
   private createRegisterForm() {
     this.registerForm = this.fb.group({
       gender: ['male'],
@@ -45,7 +47,9 @@ export class RegisterComponent implements OnInit {
     });
   }
   private passwordMatchValidator(g: FormGroup) {
-    return g.get('password').value === g.get('confirmPassword').value
+    const passwordControl = g.get('password');
+    const confirmPasswordControl = g.get('confirmPassword');
+    return passwordControl && confirmPasswordControl && passwordControl.value === confirmPasswordControl.value
       ? null
       : {mismatch: true};
   }

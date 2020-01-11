@@ -45,8 +45,10 @@ export class MemberListComponent implements OnInit {
   public loadUsers() {
     this.userService.getUsers(this.pagination.currentPage, this.pagination.itemsPerPage, this.userParams)
     .subscribe((res: PaginatedResult<IUser[]>) => {
-      this.users = res.result;
-      this.pagination = res.pagination;
+      this.users = res.result ? res.result : [];
+      if (res.pagination) {
+        this.pagination = res.pagination;
+      }
     }, (error) => { this.alertify.error(error); });
   }
 }

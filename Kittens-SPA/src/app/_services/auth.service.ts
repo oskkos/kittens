@@ -18,10 +18,10 @@ private jwtHelper = new JwtHelperService();
 private photoUrl = new BehaviorSubject<string>(PLACHOLDER_IMG);
 
 public static getToken(): string {
-  return localStorage.getItem('token');
+  return localStorage.getItem('token') || '';
 }
 public static getUser(): IUser {
-  return JSON.parse(localStorage.getItem('user'));
+  return JSON.parse(localStorage.getItem('user') || '');
 }
 
 constructor(private http: HttpClient) {
@@ -34,7 +34,7 @@ public login(model: ILogin) {
     .pipe(
       map((response: ILoginResponse) => {
         if (response) {
-          localStorage.setItem('token', response.token);
+          localStorage.setItem('token', response.token || '');
           localStorage.setItem('user', JSON.stringify(response.user));
           this.changeMemberPhoto(AuthService.getUser().photoUrl);
         }
@@ -51,8 +51,7 @@ public register(user: IUser) {
 }
 
 public loggedIn() {
-  const token = localStorage.getItem('token');
-  return !this.jwtHelper.isTokenExpired(token);
+  return !this.jwtHelper.isTokenExpired(AuthService.getToken());
 }
 public changeMemberPhoto(url: string) {
   const newUrl = url || PLACHOLDER_IMG;
@@ -66,8 +65,8 @@ public getUserName(): string {
   const user = AuthService.getUser();
   return user ? user.username : 'UnknownUser';
 }
-public getUserId(): number | null {
+public getUserId(): number {
   const user = AuthService.getUser();
-  return user ? user.id : null;
+  return user ? user.id : 0;
 }
 }

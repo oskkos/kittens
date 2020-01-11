@@ -13,9 +13,11 @@ export class UserService {
 
 constructor(private http: HttpClient) { }
 
-public getUsers(page: number = 1, itemsPerPage: number = 10, userParams: IUserParams = {}): Observable<PaginatedResult<IUser[]>> {
+public getUsers(
+  page: number = 1, itemsPerPage: number = 10, userParams: IUserParams = {}, likesParam?: 'Likers'|'Likees'
+): Observable<PaginatedResult<IUser[]>> {
   const paginatedResult: PaginatedResult<IUser[]> = new PaginatedResult<IUser[]>();
-  const params = new HttpParams()
+  let params = new HttpParams()
     .append('pageNumber', String(page))
     .append('pageSize', String(itemsPerPage))
     .append('minAge', String(typeof userParams.minAge !== 'undefined' ? userParams.minAge : 0))
@@ -23,12 +25,21 @@ public getUsers(page: number = 1, itemsPerPage: number = 10, userParams: IUserPa
     .append('gender', userParams.gender || '')
     .append('orderBy', userParams.orderBy || 'lastActive');
 
+  if (likesParam === 'Likers') {
+    params = params.append('likers', 'true');
+  }
+  if (likesParam === 'Likees') {
+    params = params.append('likees', 'true');
+  }
   return this.http.get<IUser[]>(this.baseUrl + 'users', { observe: 'response', params})
   .pipe(
     map(response => {
-      paginatedResult.result = response.body;
-      if (response.headers.get('Pagination') !== null) {
-        paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+      if (response.body) {
+        paginatedResult.result = response.body;
+      }
+      const pagination = response.headers.get('Pagination');
+      if (pagination !== null) {
+        paginatedResult.pagination = JSON.parse(pagination);
       }
       return paginatedResult;
     })

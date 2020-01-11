@@ -7,7 +7,7 @@ import { catchError } from 'rxjs/operators';
 export class ErrorInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(req).pipe(
-            catchError(error => {
+            catchError((error: {status: number, statusText: string}) => {
                 if (error.status === 401) {
                     return throwError(error.statusText);
                 }
@@ -20,13 +20,14 @@ export class ErrorInterceptor implements HttpInterceptor {
                     let modalStateErrors = '';
                     if (serverError.errors && typeof serverError.errors === 'object') {
                         for (const key in serverError.errors) {
-                            if (serverError.errors[key]) {
+                            if (serverError.errors.hasOwnProperty(key)) {
                                 modalStateErrors += serverError.errors[key] + '\n';
                             }
                         }
                     }
                     return throwError(modalStateErrors || serverError || 'Server error');
                 }
+                return throwError(error);
             })
         );
     }

@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import {ListsResolver} from 'src/app/_resolvers/lists.resolver';
 import { HomeComponent } from './home/home.component';
 import { MemberListComponent } from './members/member-list/member-list.component';
 import { MessagesComponent } from './messages/messages.component';
@@ -21,7 +22,7 @@ export const appRoutes: Routes = [
       { path: 'members/edit', component: MemberEditComponent, resolve: {user: MemberEditResolver}, canDeactivate: [PreventUnsavedChanges]},
       { path: 'members/:id', component: MemberDetailComponent, resolve: {user: MemberDetailResolver}},
       { path: 'messages', component: MessagesComponent},
-      { path: 'lists', component: ListsComponent},
+      { path: 'lists', component: ListsComponent, resolve: { users: ListsResolver}},
     ]
   },
   { path: '**', redirectTo: '', pathMatch: 'full'}

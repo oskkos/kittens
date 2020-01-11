@@ -55,6 +55,6 @@ export class IUserParams {
 
 // TODO: Move
 export class PaginatedResult<T> {
-  public result: T;
-  public pagination: IPagination;
+  public result?: T;
+  public pagination?: IPagination;
 }

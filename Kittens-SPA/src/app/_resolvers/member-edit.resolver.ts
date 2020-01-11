@@ -8,14 +8,14 @@ import { catchError } from 'rxjs/operators';
 import { AuthService } from '../_services/auth.service';
 
 @Injectable()
-export class MemberEditResolver implements Resolve<IUserDetailed> {
+export class MemberEditResolver implements Resolve<IUserDetailed | null> {
   constructor(
     private userService: UserService, private authService: AuthService,
     private router: Router, private alertify: AlertifyService) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<IUserDetailed> {
-    return this.userService.getUser(this.authService.getUserId()).pipe(
-      catchError(error => {
+  resolve(route: ActivatedRouteSnapshot): Observable<IUserDetailed | null> {
+    return this.userService.getUser(this.authService.getUserId() as number).pipe(
+      catchError(() => {
         this.alertify.error('Oops...');
         this.router.navigate(['/members']);
         return of(null);

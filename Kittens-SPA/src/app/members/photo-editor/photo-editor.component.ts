@@ -40,7 +40,7 @@ export class PhotoEditorComponent implements OnInit {
       maxFileSize: 10 * 1024 * 1024
     });
     this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
-    this.uploader.onSuccessItem = (item, response, status, headers) => {
+    this.uploader.onSuccessItem = (item, response) => {
       if (!response) {
         return;
       }
@@ -68,7 +68,7 @@ export class PhotoEditorComponent implements OnInit {
         this.authService.changeMemberPhoto(photo.url);
         this.getMemberPhotoChange.emit(photo.url);
       },
-      (error) => { this.alertify.error(error); }
+      (error: string) => { this.alertify.error(error); }
     );
   }
   public deletePhoto(id: number) {
@@ -78,7 +78,7 @@ export class PhotoEditorComponent implements OnInit {
           this.photos.splice(this.photos.findIndex(p => p.id === id), 1);
           this.alertify.success('Photo has been deleted');
         },
-        (error) => { this.alertify.error('Failed to remove photo'); }
+        () => { this.alertify.error('Failed to remove photo'); }
       );
     });
   }

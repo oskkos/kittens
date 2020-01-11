@@ -49,22 +49,28 @@ namespace Kittens.API.Data
 		{
 			var users = _context.Users.Include(p => p.Photos).OrderByDescending(u => u.LastActive).AsQueryable();
 			users = users.Where(u => u.Id != userParams.UserId);
-			users = users.Where(u => u.Gender == userParams.Gender);
-			if (userParams.Likers)
-			{
-				var userLikers = await GetUserLikes(userParams.UserId, true);
-				users = users.Where(u => userLikers.Contains(u.Id));
+
+			if (userParams.Likers || userParams.Likees) {
+				if (userParams.Likers)
+				{
+					var userLikers = await GetUserLikes(userParams.UserId, true);
+					users = users.Where(u => userLikers.Contains(u.Id));
+				}
+				if (userParams.Likees)
+				{
+					var userLikees = await GetUserLikes(userParams.UserId, false);
+					users = users.Where(u => userLikees.Contains(u.Id));
+				}
 			}
-			if (userParams.Likees)
-			{
-				var userLikees = await GetUserLikes(userParams.UserId, false);
-				users = users.Where(u => userLikees.Contains(u.Id));
+			else {
+				users = users.Where(u => u.Gender == userParams.Gender);
+				if (userParams.MinAge != 0 || userParams.MaxAge != 99) {
+					var minDob = DateTime.Today.AddYears(-userParams.MaxAge - 1);
+					var maxDob = DateTime.Today.AddYears(-userParams.MinAge);
+					users = users.Where(u => u.DateOfBirth >= minDob && u.DateOfBirth <= maxDob);
+				}
 			}
-			if (userParams.MinAge != 0 || userParams.MaxAge != 99) {
-				var minDob = DateTime.Today.AddYears(-userParams.MaxAge - 1);
-				var maxDob = DateTime.Today.AddYears(-userParams.MinAge);
-				users = users.Where(u => u.DateOfBirth >= minDob && u.DateOfBirth <= maxDob);
-			}
+
 			if (!string.IsNullOrEmpty(userParams.OrderBy))
 			{
 				switch (userParams.OrderBy)

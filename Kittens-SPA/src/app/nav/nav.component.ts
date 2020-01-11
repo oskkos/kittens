@@ -13,7 +13,7 @@ export class NavComponent implements OnInit {
 
   public model: ILogin = {};
   public isCollapsed = true;
-  public photoUrl: string;
+  public photoUrl?: string;
 
   constructor(private authService: AuthService, private alertify: AlertifyService, private router: Router) { }
 
@@ -25,7 +25,7 @@ export class NavComponent implements OnInit {
 
   public login() {
     this.authService.login(this.model).subscribe(
-      next => { this.alertify.success('logged in'); },
+      () => { this.alertify.success('logged in'); },
       error => { this.alertify.error(error); },
       () => { this.router.navigate(['/members']); }
     );
