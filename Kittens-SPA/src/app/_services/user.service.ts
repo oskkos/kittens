@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {IUser, IUserDetailed, IUserUpdate, PaginatedResult, IUserParams, IMessage} from '../api-interfaces';
+import {IUser, IUserDetailed, IUserUpdate, PaginatedResult, IUserParams, IMessage, INewMessageStub} from '../api-interfaces';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -84,5 +84,8 @@ public getMessages(id: number, page: number = 1, itemsPerPage: number = 10, mess
 }
 public getMessageThread(id: number, recipientId: number) {
   return this.http.get<IMessage[]>(this.baseUrl + 'users/' + id + '/messages/thread/' + recipientId);
+}
+public sendMessage(id: number, message: INewMessageStub) {
+  return this.http.post<IMessage>(this.baseUrl + 'users/' + id + '/messages', message);
 }
 }

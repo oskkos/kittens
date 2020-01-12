@@ -66,7 +66,10 @@ export interface IMessage {
   dateRead: number;
   messageSent: number;
 }
-
+export interface INewMessageStub {
+  content?: string;
+  recipientId?: number;
+}
 
 // TODO: Move
 export class PaginatedResult<T> {

@@ -21,7 +21,7 @@ namespace Kittens.API.Helpers
             CreateMap<Photo, PhotoForReturnDto>();
             CreateMap<PhotoForCreationDto, Photo>();
             CreateMap<UserForRegisterDto, User>();
-            CreateMap<MessageForCreationDto, Message>().ReverseMap();
+            CreateMap<MessageForCreationDto, Message>();
             CreateMap<Message, MessageToReturnDto>()
                 .ForMember(dest => dest.SenderPhotoUrl, opt => opt.MapFrom(m => m.Sender.Photos.FirstOrDefault(p => p.IsMain).Url))
                 .ForMember(dest => dest.RecipientPhotoUrl, opt => opt.MapFrom(m => m.Recipient.Photos.FirstOrDefault(p => p.IsMain).Url));

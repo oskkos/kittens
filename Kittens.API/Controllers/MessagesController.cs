@@ -78,7 +78,9 @@ namespace Kittens.API.Controllers
             var msg = _mapper.Map<Message>(msgDto);
             _repository.Add(msg);
             if (await _repository.SaveAll()) {
-                return CreatedAtRoute("GetMessage", new {userId=userId, id=msg.Id}, _mapper.Map<MessageForCreationDto>(msg));
+                var messageFromRepo = await _repository.GetMessage(msg.Id);
+                var messageToReturn = _mapper.Map<MessageToReturnDto>(messageFromRepo);
+                return CreatedAtRoute("GetMessage", new {userId=userId, id=msg.Id}, messageToReturn);
             }
             throw new Exception("Create message failed");
         }
