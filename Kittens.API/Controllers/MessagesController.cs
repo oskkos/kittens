@@ -84,5 +84,27 @@ namespace Kittens.API.Controllers
             }
             throw new Exception("Create message failed");
         }
+
+        [HttpPost("{id}")]
+        public async Task<IActionResult> DeleteMessage(int userId, int id)
+        {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) {
+				return Unauthorized();
+			}
+            var msgFromRepo = await _repository.GetMessage(id);
+            if (msgFromRepo.SenderId == userId) {
+                msgFromRepo.SenderDeleted = true;
+            }
+            if (msgFromRepo.RecipientId == userId) {
+                msgFromRepo.RecipientDeleted = true;
+            }
+            if (msgFromRepo.SenderDeleted && msgFromRepo.RecipientDeleted) {
+                _repository.Delete(msgFromRepo);
+            }
+            if (await _repository.SaveAll()) {
+                return NoContent();
+            }
+            throw new Exception("Failed to delete message");
+        }
 	}
 }

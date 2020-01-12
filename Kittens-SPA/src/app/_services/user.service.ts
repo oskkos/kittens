@@ -88,4 +88,7 @@ public getMessageThread(id: number, recipientId: number) {
 public sendMessage(id: number, message: INewMessageStub) {
   return this.http.post<IMessage>(this.baseUrl + 'users/' + id + '/messages', message);
 }
+public deleteMessage(id: number, msgId: number) {
+  return this.http.post<void>(this.baseUrl + 'users/' + id + '/messages/' + msgId, {});
+}
 }
