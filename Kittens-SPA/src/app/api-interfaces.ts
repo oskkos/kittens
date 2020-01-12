@@ -63,7 +63,7 @@ export interface IMessage {
   recipientPhotoUrl: string;
   content: string;
   isRead: boolean;
-  dateRead: Date;
+  dateRead: number;
   messageSent: number;
 }
 

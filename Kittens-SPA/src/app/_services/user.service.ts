@@ -82,4 +82,7 @@ public getMessages(id: number, page: number = 1, itemsPerPage: number = 10, mess
     })
   );
 }
+public getMessageThread(id: number, recipientId: number) {
+  return this.http.get<IMessage[]>(this.baseUrl + 'users/' + id + '/messages/thread/' + recipientId);
+}
 }
