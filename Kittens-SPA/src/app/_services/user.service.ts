@@ -91,4 +91,7 @@ public sendMessage(id: number, message: INewMessageStub) {
 public deleteMessage(id: number, msgId: number) {
   return this.http.post<void>(this.baseUrl + 'users/' + id + '/messages/' + msgId, {});
 }
+public markAsRead(id: number, msgId: number) {
+  this.http.post<void>(this.baseUrl + 'users/' + id + '/messages/' + msgId + '/read', {}).subscribe();
+}
 }

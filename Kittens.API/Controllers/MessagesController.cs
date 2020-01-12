@@ -106,5 +106,22 @@ namespace Kittens.API.Controllers
             }
             throw new Exception("Failed to delete message");
         }
+        [HttpPost("{id}/read")]
+        public async Task<IActionResult> MarkMessageAsRead(int userId, int id)
+        {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)) {
+				return Unauthorized();
+			}
+            var msgFromRepo = await _repository.GetMessage(id);
+            if (msgFromRepo.RecipientId != userId) {
+                return Unauthorized();
+            }
+            msgFromRepo.IsRead = true;
+            msgFromRepo.DateRead = DateTime.Now;
+            if (await _repository.SaveAll()) {
+                return NoContent();
+            }
+            throw new Exception("Failed to mark message as read");
+        }
 	}
 }
