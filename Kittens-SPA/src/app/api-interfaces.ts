@@ -53,6 +53,21 @@ export class IUserParams {
   orderBy?: string;
 }
 
+export interface IMessage {
+  id: number;
+  senderId: number;
+  senderKnownAs: string;
+  senderPhotoUrl: string;
+  recipientId: number;
+  recipientKnownAs: string;
+  recipientPhotoUrl: string;
+  content: string;
+  isRead: boolean;
+  dateRead: Date;
+  messageSent: number;
+}
+
+
 // TODO: Move
 export class PaginatedResult<T> {
   public result?: T;

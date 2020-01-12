@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IUser, IUserDetailed, IUserUpdate, PaginatedResult, IUserParams } from '../api-interfaces';
+import {IUser, IUserDetailed, IUserUpdate, PaginatedResult, IUserParams, IMessage} from '../api-interfaces';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -59,5 +59,27 @@ public deletePhoto(userId: number, id: number) {
 }
 public sendLike(id: number, recipientId: number) {
   return this.http.post(this.baseUrl + 'users/' + id + '/like/' + recipientId, {});
+}
+public getMessages(id: number, page: number = 1, itemsPerPage: number = 10, messageContainer?: 'Inbox'|'Outbox') {
+  const paginatedResult: PaginatedResult<IMessage[]> = new PaginatedResult<IMessage[]>();
+  let params = new HttpParams()
+  .append('pageNumber', String(page))
+  .append('pageSize', String(itemsPerPage));
+  if (messageContainer) {
+    params = params.append('MessageContainer', messageContainer);
+  }
+  return this.http.get<IMessage[]>(this.baseUrl + 'users/' + id + '/messages', { observe: 'response', params})
+  .pipe(
+    map(response => {
+      if (response.body) {
+        paginatedResult.result = response.body;
+      }
+      const pagination = response.headers.get('Pagination');
+      if (pagination !== null) {
+        paginatedResult.pagination = JSON.parse(pagination);
+      }
+      return paginatedResult;
+    })
+  );
 }
 }
