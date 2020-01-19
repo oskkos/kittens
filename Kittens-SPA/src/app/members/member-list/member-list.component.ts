@@ -20,7 +20,10 @@ export class MemberListComponent implements OnInit {
     private userService: UserService,
     private alertify: AlertifyService,
     private route: ActivatedRoute) {
-      this.user = AuthService.getUser();
+      const u = AuthService.getUser();
+      if (u) {
+        this.user = u;
+      }
     }
 
   public ngOnInit() {

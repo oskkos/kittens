@@ -20,13 +20,20 @@ private photoUrl = new BehaviorSubject<string>(PLACHOLDER_IMG);
 public static getToken(): string {
   return localStorage.getItem('token') || '';
 }
-public static getUser(): IUser {
-  return JSON.parse(localStorage.getItem('user') || '');
+public static getUser(): IUser | null {
+  const u = localStorage.getItem('user');
+  if (u) {
+    return JSON.parse(u);
+  }
+  return null;
 }
 
 constructor(private http: HttpClient) {
   this.currentPhotoUrl = this.photoUrl.asObservable();
-  this.changeMemberPhoto(AuthService.getUser().photoUrl);
+  const u = AuthService.getUser();
+  if (u) {
+    this.changeMemberPhoto(u.photoUrl);
+  }
 }
 
 public login(model: ILogin) {
@@ -36,7 +43,10 @@ public login(model: ILogin) {
         if (response) {
           localStorage.setItem('token', response.token || '');
           localStorage.setItem('user', JSON.stringify(response.user));
-          this.changeMemberPhoto(AuthService.getUser().photoUrl);
+          const u = AuthService.getUser();
+          if (u) {
+            this.changeMemberPhoto(u.photoUrl);
+          }
         }
       }
       )
@@ -58,8 +68,11 @@ public changeMemberPhoto(url: string) {
 
   this.photoUrl.next(newUrl);
   const user = AuthService.getUser();
-  user.photoUrl = newUrl;
-  localStorage.setItem('user', JSON.stringify(user));
+  const u = AuthService.getUser();
+  if (user) {
+    user.photoUrl = newUrl;
+    localStorage.setItem('user', JSON.stringify(user));
+  }
 }
 public getUserName(): string {
   const user = AuthService.getUser();
