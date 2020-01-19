@@ -22,7 +22,6 @@ import { MessagesComponent } from './messages/messages.component';
 import { appRoutes } from './routes';
 import { MemberCardComponent } from './members/member-card/member-card.component';
 import { AuthService } from './_services/auth.service';
-import { environment } from 'src/environments/environment';
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
 import { MemberDetailResolver } from './_resolvers/member-detail.resolver';
 import { MemberListResolver } from './_resolvers/member-list.resolver';
@@ -75,8 +74,8 @@ export class CustomHammerConfig extends HammerGestureConfig  {
       JwtModule.forRoot({
          config: {
             tokenGetter: AuthService.getToken,
-            whitelistedDomains: [environment.domain],
-            blacklistedRoutes: [environment.domain + '/api/auth']
+            whitelistedDomains: ['localhost:5000'],
+            blacklistedRoutes: ['localhost:5000/api/auth']
          }
       })
    ],
