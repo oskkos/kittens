@@ -37,18 +37,12 @@ namespace Kittens.API.Data
 
 		public async Task<Message> GetMessage(int id)
 		{
-			return await _context.Messages
-				.Include(m => m.Sender).ThenInclude(u => u.Photos)
-				.Include(m => m.Recipient).ThenInclude(u => u.Photos)
-				.FirstOrDefaultAsync(m => m.Id == id);
+			return await _context.Messages.FirstOrDefaultAsync(m => m.Id == id);
 		}
 
 		public async Task<PagedList<Message>> GetMessagesForUser(MessageParams messageParams)
 		{
-			var messages = _context.Messages
-				.Include(m => m.Sender).ThenInclude(u => u.Photos)
-				.Include(m => m.Recipient).ThenInclude(u => u.Photos)
-				.AsQueryable();
+			var messages = _context.Messages.AsQueryable();
 
 			switch (messageParams.MessageContainer)
 			{
@@ -69,8 +63,6 @@ namespace Kittens.API.Data
 		public async Task<IEnumerable<Message>> GetMessageThread(int userId, int recipientId)
 		{
 			var messages = await _context.Messages
-				.Include(m => m.Sender).ThenInclude(u => u.Photos)
-				.Include(m => m.Recipient).ThenInclude(u => u.Photos)
 				.Where(
 					m => m.RecipientId == userId && !m.RecipientDeleted && m.SenderId == recipientId
 					|| m.RecipientId == recipientId && ! m.SenderDeleted && m.SenderId == userId)
@@ -87,12 +79,12 @@ namespace Kittens.API.Data
 
 		public async Task<User> GetUser(int id)
 		{
-			return await _context.Users.Include(p => p.Photos).FirstOrDefaultAsync(u => u.Id == id);
+			return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
 		}
 
 		public async Task<PagedList<User>> GetUsers(UserParams userParams)
 		{
-			var users = _context.Users.Include(p => p.Photos).OrderByDescending(u => u.LastActive).AsQueryable();
+			var users = _context.Users.OrderByDescending(u => u.LastActive).AsQueryable();
 			users = users.Where(u => u.Id != userParams.UserId);
 
 			if (userParams.Likers || userParams.Likees) {
@@ -139,10 +131,7 @@ namespace Kittens.API.Data
 		}
 
 		private async Task<IEnumerable<int>> GetUserLikes(int id, bool likers) {
-			var user = await _context.Users
-				.Include(x => x.Likees)
-				.Include(x => x.Likers)
-				.FirstOrDefaultAsync(u => u.Id == id);
+			var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
 			if (likers)
 			{
 				return user.Likers.Where(u => u.LikeeId == id).Select(i => i.LikerId);
